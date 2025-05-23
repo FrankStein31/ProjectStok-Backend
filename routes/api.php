@@ -5,6 +5,7 @@ use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\StockCardController;
 use App\Http\Controllers\API\StockMutationController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,10 +53,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/orders/my-orders', [OrderController::class, 'getMyOrders']);
     Route::post('/orders', [OrderController::class, 'store']);
     Route::get('/orders/{id}', [OrderController::class, 'show']);
+    Route::delete('/orders/{id}', [OrderController::class, 'destroy']);
+    Route::put('orders/{id}/status', [OrderController::class, 'updateStatus']);
     
     // Orders - akses admin
     Route::middleware('admin')->group(function () {
         Route::get('/orders', [OrderController::class, 'index']);
         Route::put('/orders/{id}/status', [OrderController::class, 'updateStatus']);
+
+        Route::apiResource('users', UserController::class);
     });
 });

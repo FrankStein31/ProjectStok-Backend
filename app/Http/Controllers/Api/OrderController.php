@@ -278,4 +278,31 @@ class OrderController extends Controller
             'data' => $orders
         ], 200);
     }
+
+    public function destroy($id)
+    {
+        $order = Order::find($id);
+        
+        if (!$order) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Pesanan tidak ditemukan'
+            ], 404);
+        }
+        
+        // Hanya admin yang dapat menghapus pesanan
+        if (auth()->user()->role != 'admin') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak diizinkan'
+            ], 403);
+        }
+        
+        $order->delete();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Pesanan berhasil dihapus'
+        ], 200);
+    }
 }
