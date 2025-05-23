@@ -38,15 +38,20 @@ class AuthController extends Controller
             'address' => $request->address,
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // $token = $user->createToken('auth_token')->plainTextToken;
 
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Registrasi berhasil',
+        //     'data' => [
+        //         'user' => $user,
+        //         'token' => $token
+        //     ]
+        // ], 201);
         return response()->json([
             'success' => true,
             'message' => 'Registrasi berhasil',
-            'data' => [
-                'user' => $user,
-                'token' => $token
-            ]
+            'user' => $user
         ], 201);
     }
 
