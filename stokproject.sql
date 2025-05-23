@@ -140,7 +140,7 @@ CREATE TABLE `order_details` (
   KEY `order_details_product_id_foreign` (`product_id`),
   CONSTRAINT `order_details_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
   CONSTRAINT `order_details_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `order_details` */
 
@@ -162,7 +162,7 @@ CREATE TABLE `orders` (
   UNIQUE KEY `orders_order_number_unique` (`order_number`),
   KEY `orders_user_id_foreign` (`user_id`),
   CONSTRAINT `orders_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `orders` */
 
@@ -197,9 +197,12 @@ CREATE TABLE `personal_access_tokens` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `personal_access_tokens` */
+
+insert  into `personal_access_tokens`(`id`,`tokenable_type`,`tokenable_id`,`name`,`token`,`abilities`,`last_used_at`,`expires_at`,`created_at`,`updated_at`) values 
+(2,'App\\Models\\User',1,'auth_token','5850407a29acd97ab9a7ad5df2db3b5b7062fa07add722c32c3f92b6e2f13f35','[\"*\"]','2025-05-23 11:04:44',NULL,'2025-05-23 11:04:01','2025-05-23 11:04:44');
 
 /*Table structure for table `products` */
 
@@ -218,9 +221,16 @@ CREATE TABLE `products` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `products_code_unique` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `products` */
+
+insert  into `products`(`id`,`code`,`name`,`description`,`price`,`stock`,`unit`,`image`,`created_at`,`updated_at`) values 
+(1,'PRD001','Pensil 2B','Pensil kualitas terbaik untuk ujian dan menggambar.',2500.00,98,'pcs','pensil2b.jpg','2025-05-23 09:51:55','2025-05-23 10:00:43'),
+(2,'PRD002','Buku Tulis','Buku tulis 38 lembar, cocok untuk pelajar.',4000.00,45,'pcs','buku_tulis.jpg','2025-05-23 09:51:55','2025-05-23 11:04:24'),
+(3,'PRD003','Penghapus','Penghapus putih bersih, tidak merusak kertas.',1500.00,200,'pcs','penghapus.jpg','2025-05-23 09:51:55','2025-05-23 09:51:55'),
+(4,'PRD004','Pulpen Biru','Pulpen tinta biru yang nyaman digunakan.',3000.00,120,'pcs','pulpen_biru.jpg','2025-05-23 09:51:55','2025-05-23 09:51:55'),
+(5,'PRD005','Penggaris 30cm','Penggaris plastik 30cm, awet dan tahan lama.',5000.00,80,'pcs','penggaris_30cm.jpg','2025-05-23 09:51:55','2025-05-23 09:51:55');
 
 /*Table structure for table `sessions` */
 
@@ -283,9 +293,13 @@ CREATE TABLE `stock_mutations` (
   KEY `stock_mutations_user_id_foreign` (`user_id`),
   CONSTRAINT `stock_mutations_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
   CONSTRAINT `stock_mutations_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `stock_mutations` */
+
+insert  into `stock_mutations`(`id`,`product_id`,`type`,`quantity`,`before_stock`,`after_stock`,`date`,`description`,`user_id`,`created_at`,`updated_at`) values 
+(1,1,'out',2,100,98,'2025-05-23','Pesanan #ORD-20250523-GBYAG',1,'2025-05-23 10:00:43','2025-05-23 10:00:43'),
+(2,2,'out',5,50,45,'2025-05-23','Pesanan #ORD-20250523-2ZOXI',1,'2025-05-23 11:04:24','2025-05-23 11:04:24');
 
 /*Table structure for table `users` */
 
@@ -298,6 +312,7 @@ CREATE TABLE `users` (
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `role` enum('admin','user') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
+  `jenis_kelamin` enum('L','P') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `address` text COLLATE utf8mb4_unicode_ci,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -305,9 +320,12 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `users` */
+
+insert  into `users`(`id`,`name`,`email`,`email_verified_at`,`password`,`role`,`jenis_kelamin`,`phone`,`address`,`remember_token`,`created_at`,`updated_at`) values 
+(1,'Test User','test@example.com','2025-05-23 09:51:54','$2y$12$zYRTTACp/bpcBDJIbQg00.cSCtALvdxyrHvhkulFxMfiDsIYa3Q4.','admin','L','08123456789','Jl. Contoh Alamat','jxyDQBWULC','2025-05-23 09:51:55','2025-05-23 09:51:55');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
